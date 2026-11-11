@@ -1,0 +1,19 @@
+NIEUWE WEBSITE KLAS 2 – HERKANSING ECONOMIE H1 & H2 VERSIE B
+
+1. Maak een NIEUWE privé-GitHub-repository, bijvoorbeeld herkansing-economie-klas2.
+2. Upload alle bestanden en mappen uit dit pakket, niet het zip-bestand zelf.
+3. Maak in Neon een NIEUW databaseproject voor klas 2. Kopieer de PostgreSQL connection string.
+4. Maak op Render een NIEUWE Web Service voor deze repository. Build: pip install -r requirements.txt. Start: gunicorn app:app.
+5. Voeg in Render Environment toe: DATABASE_URL (nieuwe Neon URL), SECRET_KEY (lange willekeurige geheime waarde), TEACHER_PASSWORD_HASH (Werkzeug hash van docentwachtwoord). Gebruik niet de klas-3-database.
+6. Test eerst met een proefleerling en controleer docentlogin, antwoorden, inleveren, nakijken, PDF en back-ups.
+7. Ga pas daarna met echte leerlingen aan de slag.
+
+LET OP: In het aangeleverde Word-document staat 30 punten, maar de 22 vraagpunten tellen op tot 28. Dit pakket rekent met 28 en wijzigt geen puntentoekenningen zonder jouw akkoord.
+Er is geen antwoordmodel aangeleverd. Alle vragen worden daarom HANDMATIG nagekeken, ook meerkeuze.
+Klasopties zijn voorlopig 2A, 2B, 2C, 2D. Pas aan als de werkelijke klasnamen anders zijn.
+Automatische OneDrive- of Gmail-back-up is NIET ingericht. Handmatige CSV/JSON/PDF-downloads wel.
+Bewaar databasegegevens en sleutels uitsluitend in Render Environment, nooit in GitHub of chats.
+
+NORMERING: Basis = vragen behalve 3, 9, 14, 20 (20 punten). Kader = alle vragen (28 punten). Beide cijfers: 1 + 9 × score/max. Dit is een voorgestelde inhoudelijke indeling; docent kan de indeling aanpassen vóór afname.
+
+NORMERING UPDATE: verdiepingsvragen 3, 9, 14, 19, 20, 22 (10 punten). Basis maximaal 18 punten; kader maximaal 28 punten. Formule: 1 + 9 * (behaalde punten / maximale punten).

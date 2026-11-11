@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: herkansing-economie-klas2
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: TEACHER_PASSWORD_HASH
+        sync: false

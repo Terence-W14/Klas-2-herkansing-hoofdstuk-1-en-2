@@ -1,0 +1,1 @@
+document.getElementById('continue-delete').addEventListener('click',()=>{document.getElementById('delete-form').hidden=false;document.getElementById('continue-delete').hidden=true;});document.getElementById('confirm-delete').addEventListener('input',e=>{document.getElementById('delete-submit').disabled=e.target.value!=='VERWIJDEREN';});

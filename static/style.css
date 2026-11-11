@@ -1,0 +1,56 @@
+:root{font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:#182c3e;background:#f3f6fa;font-size:16px}*{box-sizing:border-box}body{margin:0}a{color:#1260a3}button,input,textarea{font:inherit}button,.button{border:0;border-radius:9px;padding:11px 17px;cursor:pointer;text-decoration:none;display:inline-block;font-weight:650}button:disabled{opacity:.45;cursor:not-allowed}.primary{background:#0867ad;color:white}.secondary{background:#e7eef5;color:#193b57}.quiet{background:transparent;color:white;border:1px solid #8298ab}.small{font-size:13px;padding:7px 10px}.site-header{background:#153a58;color:#fff;padding:17px 0}.head{display:flex;justify-content:space-between;align-items:center;gap:20px}.head span{display:block;font-size:12px;opacity:.8;margin-top:3px}.container{width:min(1150px,calc(100% - 32px));margin:auto}main{padding:34px 0 60px;min-height:calc(100vh - 160px)}footer{color:#677786;font-size:12px;padding-bottom:24px}.panel{background:white;border:1px solid #e1e8ef;border-radius:15px;padding:26px;box-shadow:0 4px 18px #143d5c0a}.narrow{max-width:560px;margin:40px auto}.eyebrow{font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:750;color:#2877ac}h1{font-size:clamp(24px,3vw,35px);margin:5px 0 15px}h2{font-size:20px;margin:0}.stack{display:grid;gap:17px;margin-top:25px}label{display:block;font-weight:650}label input,label textarea{display:block;width:100%;margin-top:7px}input:not([type=checkbox]):not([type=radio]),textarea{padding:11px;border:1px solid #aebfcd;border-radius:8px;background:white;color:#152f43}input:focus,textarea:focus{outline:2px solid #4b9ed2}textarea{resize:vertical}.muted{color:#637486;font-size:14px}.flash{padding:14px;background:#fff3dc;border:1px solid #f0d2a0;border-radius:8px;margin-bottom:20px}.exam-head,.section-head{display:flex;justify-content:space-between;align-items:center;gap:22px;margin-bottom:22px}.counter{text-align:center;background:#e7f1f8;padding:15px 20px;border-radius:12px;white-space:nowrap}.counter strong{display:block;font-size:25px;color:#135d90}.counter span{font-size:12px}.layout{display:grid;grid-template-columns:220px minmax(0,1fr);align-items:start;gap:18px}.sidebar{position:sticky;top:18px}.navgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:16px 0}.nav-button{padding:8px 0;background:#e9eef3;color:#234}.nav-button.done{background:#d3eee2}.nav-button.active{background:#0867ad;color:white}.exam-panel{min-height:500px}.question-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid #e5eaf0;padding-bottom:15px}.question-heading span{font-size:13px;font-weight:700;color:#527187}.question-text{font-size:17px;line-height:1.65;white-space:pre-line}.choices{border:0;padding:0;margin:25px 0}.choices legend{font-weight:700;margin-bottom:10px}.choice{display:flex;gap:12px;align-items:flex-start;border:1px solid #d6e0e9;border-radius:9px;padding:13px;margin:8px 0;cursor:pointer;font-weight:450}.choice:has(input:checked){border-color:#177ab8;background:#eff8ff}.choice input{margin-top:5px;accent-color:#126ba7}.controls{display:flex;justify-content:space-between;margin-top:30px;gap:12px}.source-image{max-width:100%;height:auto;margin:18px 0;border:1px solid #e3e8ee}.table-scroll{overflow-x:auto;margin:16px 0}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid #d4dfe7;text-align:left;padding:9px}th{background:#eaf1f7}.notice{padding:16px;background:#f0f5fa;border-left:4px solid #548ab2;line-height:1.8}.tables{margin:15px 0}.ratio-block{border:1px solid #d9e4eb;border-radius:10px;padding:14px;margin:12px 0}.ratio-top,.ratio-controls{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap}.ratio td{min-width:100px;padding:4px}.ratio input{width:100%;min-width:80px}.ratio-controls{justify-content:flex-start}.review-item{margin:18px 0}.answer{background:#f6f9fb;padding:15px;border-radius:9px;margin-top:15px}.preline{white-space:pre-wrap;overflow-wrap:anywhere}.grade-form{display:grid;gap:14px;margin-top:18px;max-width:600px}.grade-form input[type=number]{max-width:130px}.grade-form button{justify-self:start}small{font-size:14px}#save-status{font-size:13px;color:#316c8c}#submit-form{margin-top:30px;border-top:1px solid #dce5ec;padding-top:20px}#submit-form[hidden]{display:none}@media(max-width:750px){.layout{grid-template-columns:1fr}.sidebar{position:static}.navgrid{grid-template-columns:repeat(9,1fr)}.panel{padding:18px}.exam-head,.section-head{align-items:flex-start;flex-wrap:wrap}.counter{padding:9px 14px}.head{flex-wrap:wrap}}@media(max-width:430px){.navgrid{grid-template-columns:repeat(6,1fr)}}
+
+.calculator-grid button{min-height:42px}.ratio-block button{margin:3px}#final-check{margin-top:15px}
+
+/* Bewerkbare bogen en pijlen boven verhoudingstabellen */
+.ratio-scroll{overflow-x:auto}.ratio-drawing{height:90px;min-width:max-content}.ratio-annotation-form{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:14px 0}.ratio-annotation-form strong{width:100%}.ratio-annotation-form select,.ratio-annotation-form input{padding:8px;border:1px solid #aebfcd;border-radius:8px;background:#fff}.ratio-annotation-form input{max-width:220px}.ratio-mark-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 0;font-size:13px}
+
+.symbol-buttons{display:flex;gap:10px;margin:8px 0 18px}.symbol-buttons button{min-width:48px;font-size:1.15rem;font-weight:700}.source-image{max-width:100%;height:auto;object-fit:contain;display:block;margin:14px auto}
+
+/* Aanklikbare punten bij het nakijken */
+.grade-options {border:1px solid #cbd5e1;border-radius:12px;padding:14px;margin:12px 0;}
+.grade-choices {display:flex;flex-wrap:wrap;gap:9px;margin-top:10px;}
+.grade-choice {position:relative;cursor:pointer;}
+.grade-choice input {position:absolute;opacity:0;width:1px;height:1px;}
+.grade-choice span {display:inline-block;padding:10px 15px;border:2px solid #94a3b8;border-radius:10px;background:white;color:#172554;font-weight:700;}
+.grade-choice input:checked + span {border-color:#1d4ed8;background:#dbeafe;box-shadow:0 0 0 2px #93c5fd;}
+.grade-choice input:focus-visible + span {outline:3px solid #f59e0b;outline-offset:2px;}
+
+select {width:100%;padding:12px;border:1px solid #b9c4cf;border-radius:8px;background:white;font:inherit;}
+
+/* Boogjes en tabelkolommen delen exact dezelfde breedte. */
+.ratio-scroll .ratio {width:max-content;table-layout:fixed;margin:0;}
+.ratio-scroll .ratio td {box-sizing:border-box;width:110px;min-width:110px;max-width:110px;}
+.ratio-scroll .ratio-drawing {height:90px;}
+
+/* Nederlandse voorleesfunctie */
+.read-aloud-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:.7rem;margin:.75rem 0 1.25rem}
+.read-aloud-button{min-height:44px;padding:.6rem 1rem;cursor:pointer}
+.read-aloud-voice{max-width:100%;min-height:44px;padding:.5rem;border:1px solid #a7b6c5;border-radius:8px;background:#fff;color:#193044}
+
+
+/* Groot Goylant: roze schoolhuisstijl */
+:root{--gg-roze:#cf003d;--gg-donker:#852d4b;--gg-licht:#fff0f5;--gg-achtergrond:#fff8fa;--gg-tekst:#29202a;--gg-rand:#f0ceda;color:var(--gg-tekst);background:var(--gg-achtergrond)}
+.site-header{background:#fff;color:var(--gg-tekst);border-bottom:5px solid var(--gg-roze);box-shadow:0 3px 14px #90003212;padding:12px 0}
+.school-brand{display:flex;align-items:center;gap:22px;min-width:0;flex:1}
+.school-logo{display:block;width:clamp(210px,36vw,340px);height:auto;max-width:100%;object-fit:contain;flex-shrink:0}
+.school-title{border-left:2px solid #efc1d0;padding-left:20px;min-width:0}
+.school-title strong{font-size:clamp(15px,1.7vw,21px);font-weight:800;letter-spacing:.01em;color:var(--gg-roze)}
+.head .school-title span{color:var(--gg-donker);opacity:1;font-size:13px;line-height:1.4}
+.site-header .quiet{color:var(--gg-roze);border:1px solid var(--gg-roze)}
+.site-header .quiet:hover{background:var(--gg-licht)}
+a{color:#aa0036}
+.primary,.nav-button.active{background:var(--gg-roze);color:#fff}
+.primary:hover{background:#a90032}
+.secondary,.counter,.nav-button{background:var(--gg-licht);color:var(--gg-donker)}
+.panel,.ratio-block{border-color:var(--gg-rand)}
+.eyebrow,.counter strong,.question-heading span{color:var(--gg-roze)}
+.question-heading{border-color:var(--gg-rand)}
+.choice:has(input:checked){border-color:var(--gg-roze);background:var(--gg-licht)}
+.choice input{accent-color:var(--gg-roze)}
+input:focus,textarea:focus,select:focus{outline:2px solid #df5980;outline-offset:1px}
+.grade-choice input:checked + span{border-color:var(--gg-roze);background:var(--gg-licht);box-shadow:0 0 0 2px #f4b4c9}
+th{background:var(--gg-licht)}
+.notice{background:var(--gg-licht);border-left-color:var(--gg-roze)}
+#save-status{color:var(--gg-donker)}
+@media(max-width:800px){.school-brand{flex-wrap:wrap;gap:10px}.school-title{border-left:0;padding-left:0;width:100%}.school-logo{width:min(320px,100%)}.site-header .head{align-items:flex-start}}
