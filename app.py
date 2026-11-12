@@ -312,27 +312,46 @@ def toggle_exam_access():
     flash('De toets is nu ' + ('OPEN' if access.is_open else 'GESLOTEN') + ' voor alle leerlingen.')
     return redirect(url_for('dashboard'))
 
-@app.route('/docent/leerling/<int:sid>',methods=['GET','POST'])
+@app.route('/docent/leerling/<int:sid>', methods=['GET', 'POST'])
 @teacher_only
 def review(sid):
-    student=db.get_or_404(Student,sid)
-    if request.method=='POST':
+    student = db.get_or_404(Student, sid)
+    if request.method == 'POST':
         csrf_check()
-        if not student.submitted_at and not db.session.get(ExamLock,student.id): abort(403)
-        qid=int(request.form.get('qid','0'))
-        q=next((x for x in QUESTIONS if x['id']==qid),None)
-        if not q or False: abort(400)
-        try: points=float(request.form.get('points',''))
-        except ValueError: abort(400)
-        if not 0<=points<=q['points'] or round(points*2)!=points*2: abort(400,'Gebruik stappen van 0,5 punt')
-        a=Answer.query.filter_by(student_id=sid,question_id=qid).first()
-        if a is None: a=Answer(student_id=sid,question_id=qid,value='{}');db.session.add(a)
-        a.points=points;a.feedback=request.form.get('feedback','')[:2000]
-        db.session.commit();flash('Beoordeling opgeslagen.')
-        return redirect(url_for('review',sid=sid)+f'#vraag-{qid}')
-    ans={a.question_id:a for a in student.answers}
-    items=[dict(q=q,a=ans.get(q['id']),data=json.loads(ans[q['id']].value) if q['id'] in ans else {}) for q in QUESTIONS]
-    return render_template('review.html',student=student,items=items,answer_key=ANSWER_KEY,grading_rubric=GRADING_RUBRIC,grading=grading_status(student),total_points=TOTAL_POINTS,basis_points=BASIS_POINTS,kader_extra_ids=KADER_EXTRA_QUESTION_IDS,locked=bool(db.session.get(ExamLock,student.id)))
+        if not student.submitted_at and not db.session.get(ExamLock, student.id):
+            abort(403)
+        # Eerst alle ingevoerde beoordelingen controleren; daarna één database-commit.
+        updates = []
+        for q in QUESTIONS:
+            qid = q['id']
+            raw = request.form.get(f'points_{qid}', '').strip()
+            if raw == '':
+                continue  # Niet ingevuld: bestaande beoordeling niet wijzigen.
+            try:
+                points = float(raw)
+            except ValueError:
+                abort(400, f'Ongeldige punten bij vraag {qid}')
+            if not 0 <= points <= q['points'] or round(points * 2) != points * 2:
+                abort(400, f'Ongeldige punten bij vraag {qid}; gebruik stappen van 0,5')
+            feedback = request.form.get(f'feedback_{qid}', '')[:2000]
+            updates.append((qid, points, feedback))
+        for qid, points, feedback in updates:
+            a = Answer.query.filter_by(student_id=sid, question_id=qid).first()
+            if a is None:
+                a = Answer(student_id=sid, question_id=qid, value='{}')
+                db.session.add(a)
+            a.points = points
+            a.feedback = feedback
+        db.session.commit()
+        flash(f'{len(updates)} beoordelingen in één keer opgeslagen.')
+        return redirect(url_for('review', sid=sid))
+    ans = {a.question_id: a for a in student.answers}
+    items = [dict(q=q, a=ans.get(q['id']), data=json.loads(ans[q['id']].value) if q['id'] in ans else {}) for q in QUESTIONS]
+    return render_template('review.html', student=student, items=items, answer_key=ANSWER_KEY,
+                           grading_rubric=GRADING_RUBRIC, grading=grading_status(student),
+                           total_points=TOTAL_POINTS, basis_points=BASIS_POINTS,
+                           kader_extra_ids=KADER_EXTRA_QUESTION_IDS,
+                           locked=bool(db.session.get(ExamLock, student.id)))
 
 @app.post('/docent/automatisch-nakijken')
 @teacher_only
