@@ -19,7 +19,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, a
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import UniqueConstraint
 from werkzeug.security import check_password_hash
-from questions import QUESTIONS, ANSWER_KEY
+from questions import QUESTIONS, ANSWER_KEY, GRADING_RUBRIC
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '')
@@ -317,7 +317,7 @@ def review(sid):
         return redirect(url_for('review',sid=sid)+f'#vraag-{qid}')
     ans={a.question_id:a for a in student.answers}
     items=[dict(q=q,a=ans.get(q['id']),data=json.loads(ans[q['id']].value) if q['id'] in ans else {}) for q in QUESTIONS]
-    return render_template('review.html',student=student,items=items,answer_key=ANSWER_KEY,grading=grading_status(student),total_points=TOTAL_POINTS,basis_points=BASIS_POINTS,kader_extra_ids=KADER_EXTRA_QUESTION_IDS,locked=bool(db.session.get(ExamLock,student.id)))
+    return render_template('review.html',student=student,items=items,answer_key=ANSWER_KEY,grading_rubric=GRADING_RUBRIC,grading=grading_status(student),total_points=TOTAL_POINTS,basis_points=BASIS_POINTS,kader_extra_ids=KADER_EXTRA_QUESTION_IDS,locked=bool(db.session.get(ExamLock,student.id)))
 
 @app.post('/docent/leerling/<int:sid>/ontgrendelen')
 @teacher_only
