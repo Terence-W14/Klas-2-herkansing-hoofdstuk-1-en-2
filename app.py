@@ -110,8 +110,11 @@ def clean_answer(q, data):
         vals = data.get('values', [])
         count = len(q.get('choices', q.get('statements', [])))
         if not isinstance(vals,list) or len(vals)!=count: raise ValueError('Ongeldige keuzes')
-        allowed = ('0','1','') if kind=='choice_set' else ('juist','onjuist','')
-        if any(v not in allowed for v in vals): raise ValueError('Ongeldige keuzes')
+        if kind == 'choice_set':
+            if any(v != '' and (not isinstance(v, str) or not v.isdigit() or int(v) >= len(q['choices'][i])) for i, v in enumerate(vals)):
+                raise ValueError('Ongeldige keuzes')
+        elif any(v not in ('juist', 'onjuist', '') for v in vals):
+            raise ValueError('Ongeldige keuzes')
         return {'values': vals}
     answer = data.get('text', '')
     tables = data.get('tables', [])
@@ -162,7 +165,19 @@ def grading_status(student):
             'kader_grade': grade_from_points(total, TOTAL_POINTS) if complete else None}
 
 def autoscore(q, data):
-    # Zonder correctievoorschrift geen automatische beoordeling.
+    """Alleen vaste antwoordvragen automatisch beoordelen; open vragen blijven handmatig."""
+    correct = q.get('correct')
+    if correct is None:
+        return None
+    if q['kind'] == 'single':
+        return float(q['points']) if data.get('choices') == correct else 0.0
+    if q['kind'] == 'choice_set':
+        given = data.get('values', [])
+        if len(given) != len(correct) or not all(given):
+            return 0.0
+        if q['id'] == 15:
+            return float(sum(a == b for a, b in zip(given, correct)))
+        return float(q['points']) if given == correct else 0.0
     return None
 
 def save_answer(student,q,data):
@@ -319,6 +334,34 @@ def review(sid):
     items=[dict(q=q,a=ans.get(q['id']),data=json.loads(ans[q['id']].value) if q['id'] in ans else {}) for q in QUESTIONS]
     return render_template('review.html',student=student,items=items,answer_key=ANSWER_KEY,grading_rubric=GRADING_RUBRIC,grading=grading_status(student),total_points=TOTAL_POINTS,basis_points=BASIS_POINTS,kader_extra_ids=KADER_EXTRA_QUESTION_IDS,locked=bool(db.session.get(ExamLock,student.id)))
 
+@app.post('/docent/automatisch-nakijken')
+@teacher_only
+def rescore_objective_answers():
+    """Vul alleen nog onbeoordeelde, gestructureerde antwoorden aan; handmatige punten blijven staan."""
+    csrf_check()
+    count = 0
+    qmap = {q['id']: q for q in QUESTIONS if 'correct' in q}
+    for answer in Answer.query.join(Student).filter(Student.submitted_at.isnot(None)).all():
+        q = qmap.get(answer.question_id)
+        if q is None or answer.points is not None:
+            continue
+        try:
+            data = json.loads(answer.value)
+        except (TypeError, ValueError):
+            continue
+        if not isinstance(data, dict):
+            continue
+        if q['kind'] == 'single' and isinstance(data.get('choices'), list):
+            answer.points = autoscore(q, data)
+        elif q['kind'] == 'choice_set' and isinstance(data.get('values'), list):
+            answer.points = autoscore(q, data)
+        else:
+            continue  # Oude tekstantwoorden worden nooit overschreven of geraden.
+        count += 1
+    db.session.commit()
+    flash(f'{count} nog onbeoordeelde keuze-antwoorden automatisch nagekeken. Bestaande punten blijven behouden.')
+    return redirect(url_for('dashboard'))
+
 @app.post('/docent/leerling/<int:sid>/ontgrendelen')
 @teacher_only
 def unlock(sid):
@@ -392,7 +435,7 @@ def leesbaar_antwoord(vraag, opgeslagen_waarde):
             tekst = str(keuze)
             if soort == 'choice_set':
                 mogelijkheden = vraag.get('choices', [])
-                if i <= len(mogelijkheden) and tekst in ('0', '1'):
+                if i <= len(mogelijkheden) and tekst.isdigit() and int(tekst) < len(mogelijkheden[i-1]):
                     tekst = mogelijkheden[i-1][int(tekst)]
             uitkomst.append(f'{i}: {tekst or "(niet ingevuld)"}')
         return ' | '.join(uitkomst) if uitkomst else '(niet ingevuld)'
